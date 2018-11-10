@@ -2,6 +2,7 @@ package com.stanton.i2c.sensor;
 
 import java.util.logging.Logger;
 
+import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IQueue;
@@ -12,8 +13,8 @@ import com.pi4j.io.i2c.I2CFactory;
 public class BMP180 {
 	private IQueue<SensorReading> queue;
 	
-	public BMP180() {
-		HazelcastInstance hz = Hazelcast.newHazelcastInstance();
+	public BMP180(Config config) {
+		HazelcastInstance hz = Hazelcast.newHazelcastInstance(config);
         IQueue<SensorReading> queue = hz.getQueue( "greenhouse" );
 	}
 	
@@ -30,17 +31,17 @@ public class BMP180 {
 	 
 			// Convert the data
 			//int AC1 = data[0] * 256 + data[1];
-			int AC1 = data[0] <<8 + data[1];
-			int AC2 = data[2] <<8 + data[3];
-			int AC3 = data[4] <<8 + data[5];
-			int AC4 = ((data[6] & 0xFF) <<8) + (data[7] & 0xFF);
-			int AC5 = ((data[8] & 0xFF) <<8) + (data[9] & 0xFF);
-			int AC6 = ((data[10] & 0xFF) <<8) + (data[11] & 0xFF);
-			int B1 = data[12] <<8 + data[13];
-			int B2 = data[14] <<8 + data[15];
-			int MB = data[16] <<8 + data[17];
-			int MC = data[18] <<8 + data[19];
-			int MD = data[20] <<8 + data[21];
+			int AC1 = data[0] * 256 + data[1];
+			int AC2 = data[2] * 256 + data[3];
+			int AC3 = data[4] * 256 + data[5];
+			int AC4 = ((data[6] & 0xFF) * 256) + (data[7] & 0xFF);
+			int AC5 = ((data[8] & 0xFF) * 256) + (data[9] & 0xFF);
+			int AC6 = ((data[10] & 0xFF) * 256) + (data[11] & 0xFF);
+			int B1 = data[12] * 256 + data[13];
+			int B2 = data[14] * 256 + data[15];
+			int MB = data[16] * 256 + data[17];
+			int MC = data[18] * 256 + data[19];
+			int MD = data[20] * 256 + data[21];
 			
 			Thread.sleep(500);
 	 
@@ -106,6 +107,7 @@ public class BMP180 {
 	 
 			// Output data to screen
 			System.out.printf("Temperature in Celsius : %.2f C %n", cTemp);
+			
 			SensorReading reading = new SensorReading();
 			reading.setTemp(cTemp);
 			

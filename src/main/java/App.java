@@ -17,22 +17,26 @@ import com.stanton.queue.listeners.GreenhouseItemListener;
  * -   API client will remove from queue when succesful
  */
 public class App extends Thread{
-
-    public static void main(String[] args) {
-    	Config config = new Config();
-    	QueueConfig qc = config.getQueueConfig("default");
+	private Config config;
+	
+	public App() {
+    	config = new Config();
+    	QueueConfig qc = config.getQueueConfig("greenhouse");
     	
     	ItemListenerConfig ic = new ItemListenerConfig(new GreenhouseItemListener(), true);
     	
     	qc.setName("greenhouse").addItemListenerConfig(ic);
     	
     	config.addQueueConfig(qc);
-    	
+	}
+	
+    public static void main(String[] args) {
         new App().start();
     }
     
     public void run() {
-    	BMP180 sensor = new BMP180();
+    	BMP180 sensor = new BMP180(config);
+    	
     	while(true) {
     		try {
     			sensor.read();
