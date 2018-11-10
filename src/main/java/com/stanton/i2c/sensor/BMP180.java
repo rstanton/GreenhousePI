@@ -104,9 +104,6 @@ public class BMP180 {
 	 
 			// Calculate Altitude
 			double altitude = 44330 * (1 - Math.pow((pressure / 1013.25), 0.1903));
-	 
-			// Output data to screen
-			System.out.printf("Temperature in Celsius : %.2f C %n", cTemp);
 			
 			SensorReading reading = new SensorReading();
 			reading.setTemp(cTemp);

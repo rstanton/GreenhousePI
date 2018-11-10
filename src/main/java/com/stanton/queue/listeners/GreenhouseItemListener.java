@@ -2,6 +2,10 @@ package com.stanton.queue.listeners;
 
 import java.util.logging.Logger;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IQueue;
@@ -22,20 +26,27 @@ public class GreenhouseItemListener implements ItemListener<SensorReading> {
 	
 	@Override
 	public void itemAdded(ItemEvent<SensorReading> item) {
-		logger.info("Got Notified of new Queue Event");
-	
 		try{
 			SensorReading r = queue.take();
-			logger.info("Temp: "+r.getTemp());
+			logger.info("Temperature: "+r.getTemp());
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}		
 	}
+	
+	private void sendtoCloud(SensorReading r) throws Exception{
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target("https://api.thingspeak.com").
+				path("update.json").
+				queryParam("api_key","OMFTOKIBILJ17SRF").
+				queryParam("field1", r.getTemp());
+		
+		target.request().get();
+	}
 
 	@Override
 	public void itemRemoved(ItemEvent<SensorReading> item) {
-		// TODO Auto-generated method stub
 		
 	}
 

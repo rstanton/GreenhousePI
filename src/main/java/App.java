@@ -51,8 +51,7 @@ public class App extends Thread{
     	while(true) {
     		try {
     			sensor.read();
-    			Logger.getLogger(this.getClass().getName()).info("Queue Size: "+queue.size());
-    			
+   			
     			Thread.sleep(5000);;
     		}
     		catch(Exception e) {
