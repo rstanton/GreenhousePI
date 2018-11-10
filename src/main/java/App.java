@@ -1,3 +1,7 @@
+import java.util.logging.Logger;
+
+import javax.print.attribute.SetOfIntegerSyntax;
+
 import com.hazelcast.config.Config;
 import com.hazelcast.config.ItemListenerConfig;
 import com.hazelcast.config.QueueConfig;
@@ -22,7 +26,7 @@ import com.stanton.queue.listeners.GreenhouseItemListener;
  */
 public class App extends Thread{
 	private Config config;
-	
+	private IQueue<SensorReading> queue;
 	public App() {
     	config = new Config();
     	QueueConfig qc = config.getQueueConfig("greenhouse");
@@ -32,6 +36,9 @@ public class App extends Thread{
     	qc.setName("greenhouse").addItemListenerConfig(ic);
     	
     	config.addQueueConfig(qc);
+    	
+		HazelcastInstance hz = Hazelcast.newHazelcastInstance(config);
+        queue = hz.getQueue( "greenhouse" );
 	}
 	
     public static void main(String[] args) {
@@ -44,7 +51,7 @@ public class App extends Thread{
     	while(true) {
     		try {
     			sensor.read();
-    			
+    			Logger.getLogger(this.getClass().getName()).info("Queue Size: "+queue.size());
     			Thread.sleep(5000);;
     		}
     		catch(Exception e) {

@@ -10,7 +10,8 @@ public class GreenhouseItemListener implements ItemListener<SensorReading> {
 
 	@Override
 	public void itemAdded(ItemEvent<SensorReading> item) {
-		Logger.getLogger("Test").info("Got Reading: "+item.getItem().getTemp());;
+		Logger.getLogger(this.getClass().getName()).info("Got Reading: "+item.getItem().getTemp());;
+			
 	}
 
 	@Override
