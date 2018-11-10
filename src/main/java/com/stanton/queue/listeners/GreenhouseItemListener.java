@@ -36,6 +36,11 @@ public class GreenhouseItemListener implements ItemListener<SensorReading> {
 		}		
 	}
 	
+	/**
+	 * Use Jersey to send the data to thingspeak.
+	 * @param r
+	 * @throws Exception
+	 */
 	private void sendtoCloud(SensorReading r) throws Exception{
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("https://api.thingspeak.com").
