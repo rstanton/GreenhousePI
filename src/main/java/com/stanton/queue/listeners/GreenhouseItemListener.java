@@ -28,6 +28,7 @@ public class GreenhouseItemListener implements ItemListener<SensorReading> {
 	public void itemAdded(ItemEvent<SensorReading> item) {
 		try{
 			SensorReading r = queue.take();
+			sendtoCloud(r);
 			logger.info("Temperature: "+r.getTemp());
 		}
 		catch(Exception e) {
