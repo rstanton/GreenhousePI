@@ -52,7 +52,7 @@ public class App extends Thread{
     		try {
     			sensor.read();
    			
-    			Thread.sleep(5000);;
+    			Thread.sleep(300000);;
     		}
     		catch(Exception e) {
     			e.printStackTrace();
