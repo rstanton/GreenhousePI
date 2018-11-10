@@ -31,7 +31,7 @@ public class App extends Thread{
     	config = new Config();
     	QueueConfig qc = config.getQueueConfig("greenhouse");
     	
-    	ItemListenerConfig ic = new ItemListenerConfig(new GreenhouseItemListener(), true);
+    	ItemListenerConfig ic = new ItemListenerConfig(new GreenhouseItemListener(), false);
     	
     	qc.setName("greenhouse").addItemListenerConfig(ic);
     	
@@ -52,6 +52,7 @@ public class App extends Thread{
     		try {
     			sensor.read();
     			Logger.getLogger(this.getClass().getName()).info("Queue Size: "+queue.size());
+    			
     			Thread.sleep(5000);;
     		}
     		catch(Exception e) {
