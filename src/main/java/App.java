@@ -32,9 +32,10 @@ public class App extends Thread{
     }
     
     public void run() {
+    	BMP180 sensor = new BMP180();
     	while(true) {
     		try {
-    			new BMP180().read();
+    			sensor.read();
     			Thread.sleep(5000);;
     		}
     		catch(Exception e) {

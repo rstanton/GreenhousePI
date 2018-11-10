@@ -112,7 +112,7 @@ public class BMP180 {
 	        if(queue!=null)
 	        	queue.put(reading);
 	        else
-	        	Logger.getLogger("test").warning("Queue is null");;
+	        	Logger.getLogger("test").warning("Queue is null");
 		}
 		catch(Exception e) {
 			e.printStackTrace();
