@@ -1,10 +1,14 @@
 import com.hazelcast.config.Config;
 import com.hazelcast.config.ItemListenerConfig;
 import com.hazelcast.config.QueueConfig;
+import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.IQueue;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 import com.stanton.i2c.sensor.BMP180;
+import com.stanton.i2c.sensor.SensorReading;
 import com.stanton.queue.listeners.GreenhouseItemListener;
 
 /*
@@ -36,10 +40,11 @@ public class App extends Thread{
     
     public void run() {
     	BMP180 sensor = new BMP180(config);
-    	
+        
     	while(true) {
     		try {
     			sensor.read();
+    			
     			Thread.sleep(5000);;
     		}
     		catch(Exception e) {

@@ -15,7 +15,7 @@ public class BMP180 {
 	
 	public BMP180(Config config) {
 		HazelcastInstance hz = Hazelcast.newHazelcastInstance(config);
-        IQueue<SensorReading> queue = hz.getQueue( "greenhouse" );
+        queue = hz.getQueue( "greenhouse" );
 	}
 	
 	public void read() {
