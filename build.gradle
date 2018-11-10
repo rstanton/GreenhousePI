@@ -22,6 +22,7 @@ repositories {
 
 dependencies {
 	compile 'com.pi4j:pi4j-core:1.1'
+	compile 'com.hazelcast:hazelcast:3.11'
 	compile 'org.glassfish.jersey.core:jersey-client:2.27'
 
     // Use JUnit test framework
@@ -30,4 +31,3 @@ dependencies {
 
 // Define the main class for the application
 mainClassName = 'App'
-

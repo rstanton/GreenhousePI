@@ -18,7 +18,8 @@ public class BMP180 {
 			device.read(0xAA, data, 0, 22);
 	 
 			// Convert the data
-			int AC1 = data[0] * 256 + data[1];
+			//int AC1 = data[0] * 256 + data[1];
+			int AC1 = data[0] <<8 + data[1];
 			int AC2 = data[2] * 256 + data[3];
 			int AC3 = data[4] * 256 + data[5];
 			int AC4 = ((data[6] & 0xFF) * 256) + (data[7] & 0xFF);
