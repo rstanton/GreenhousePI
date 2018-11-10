@@ -1,7 +1,11 @@
+import com.hazelcast.config.Config;
+import com.hazelcast.config.ItemListenerConfig;
+import com.hazelcast.config.QueueConfig;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 import com.stanton.i2c.sensor.BMP180;
+import com.stanton.queue.listeners.GreenhouseItemListener;
 
 /*
  * Flow will be
@@ -15,6 +19,13 @@ import com.stanton.i2c.sensor.BMP180;
 public class App extends Thread{
 
     public static void main(String[] args) {
+    	Config config = new Config();
+    	QueueConfig qc = config.getQueueConfig("default");
+    	
+    	ItemListenerConfig ic = new ItemListenerConfig(new GreenhouseItemListener(), true);
+    	
+    	qc.setName("greenhouse").addItemListenerConfig(ic);
+    	
         new App().start();
     }
     

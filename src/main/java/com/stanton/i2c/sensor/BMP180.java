@@ -1,10 +1,19 @@
 package com.stanton.i2c.sensor;
 
+import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.IQueue;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 
 public class BMP180 {
+	private IQueue<SensorReading> queue;
+	
+	public BMP180() {
+		HazelcastInstance hz = Hazelcast.newHazelcastInstance();
+        IQueue<SensorReading> queue = hz.getQueue( "greenhouse" );
+	}
 	
 	public void read() {
 		try {
@@ -94,10 +103,11 @@ public class BMP180 {
 			double altitude = 44330 * (1 - Math.pow((pressure / 1013.25), 0.1903));
 	 
 			// Output data to screen
-			System.out.printf("Altitude : %.2f m %n", altitude);
-			System.out.printf("Pressure : %.2f hPa %n", pressure);
 			System.out.printf("Temperature in Celsius : %.2f C %n", cTemp);
-			System.out.printf("Temperature in Fahrenheit : %.2f F %n", fTemp);
+			SensorReading reading = new SensorReading();
+			reading.setTemp(cTemp);
+			
+	        queue.put(reading);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
