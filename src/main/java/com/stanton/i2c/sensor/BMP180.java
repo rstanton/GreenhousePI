@@ -107,6 +107,7 @@ public class BMP180 {
 			
 			SensorReading reading = new SensorReading();
 			reading.setTemp(cTemp);
+			reading.setPressure(pressure);
 			
 	        if(queue!=null)
 	        	queue.put(reading);

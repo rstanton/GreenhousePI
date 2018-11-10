@@ -46,7 +46,8 @@ public class GreenhouseItemListener implements ItemListener<SensorReading> {
 		WebTarget target = client.target("https://api.thingspeak.com").
 				path("update.json").
 				queryParam("api_key","OMFTOKIBILJ17SRF").
-				queryParam("field1", r.getTemp());
+				queryParam("field1", r.getTemp()).
+				queryParam("field2", r.getPressure());
 		
 		target.request().get();
 	}
