@@ -26,6 +26,8 @@ public class App extends Thread{
     	
     	qc.setName("greenhouse").addItemListenerConfig(ic);
     	
+    	config.addQueueConfig(qc);
+    	
         new App().start();
     }
     

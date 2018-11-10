@@ -1,5 +1,7 @@
 package com.stanton.i2c.sensor;
 
+import java.util.logging.Logger;
+
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IQueue;
@@ -107,7 +109,10 @@ public class BMP180 {
 			SensorReading reading = new SensorReading();
 			reading.setTemp(cTemp);
 			
-	        queue.put(reading);
+	        if(queue!=null)
+	        	queue.put(reading);
+	        else
+	        	Logger.getLogger("test").warning("Queue is null");;
 		}
 		catch(Exception e) {
 			e.printStackTrace();
