@@ -4,6 +4,11 @@ import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 
+/**
+ * Sensor Reading Class... 
+ * @author ross
+ *
+ */
 public class BMP180 {
 	
 	public void read() {
