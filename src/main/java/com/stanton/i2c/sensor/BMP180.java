@@ -22,7 +22,7 @@ public class BMP180 {
 	public BMP180(Config config) throws Exception{
 		logger = Logger.getLogger(this.getClass().getName());
 		
-		HazelcastInstance hz = Hazelcast.newHazelcastInstance();
+		HazelcastInstance hz = Hazelcast.newHazelcastInstance(config);
         queue = hz.getQueue( "greenhouse" );
         
         spi = SpiFactory.getInstance(SpiChannel.CS0,
