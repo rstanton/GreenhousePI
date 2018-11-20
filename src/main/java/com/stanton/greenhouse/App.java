@@ -47,11 +47,11 @@ public class App extends Thread{
     }
     
     public void run() {
-    	BMP180 sensor = new BMP180(config);
+    	//BMP180 sensor = new BMP180(config);
         
     	while(true) {
     		try {
-    			sensor.read();
+    			//sensor.read();
    			
     			Thread.sleep(300000);;
     		}

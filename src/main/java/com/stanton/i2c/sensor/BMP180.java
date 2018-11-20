@@ -1,5 +1,6 @@
 package com.stanton.i2c.sensor;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import com.hazelcast.config.Config;
@@ -9,13 +10,25 @@ import com.hazelcast.core.IQueue;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
+import com.pi4j.io.spi.SpiChannel;
+import com.pi4j.io.spi.SpiDevice;
+import com.pi4j.io.spi.SpiFactory;
 
 public class BMP180 {
 	private IQueue<SensorReading> queue;
+	private SpiDevice spi = null;
+	private Logger logger;
 	
-	public BMP180(Config config) {
-		HazelcastInstance hz = Hazelcast.newHazelcastInstance(config);
+	public BMP180(Config config) throws Exception{
+		logger = Logger.getLogger(this.getClass().getName());
+		
+		HazelcastInstance hz = Hazelcast.newHazelcastInstance();
         queue = hz.getQueue( "greenhouse" );
+        
+        spi = SpiFactory.getInstance(SpiChannel.CS0,
+                SpiDevice.DEFAULT_SPI_SPEED, // default spi speed 1 MHz
+                SpiDevice.DEFAULT_SPI_MODE); // default spi mode 0
+
 	}
 	
 	public void read() {
@@ -108,16 +121,36 @@ public class BMP180 {
 			SensorReading reading = new SensorReading();
 			reading.setTemp(cTemp);
 			reading.setPressure(pressure);
-			
+			reading.setVoltage(readVoltage(0));
+		
 	        if(queue!=null)
 	        	queue.put(reading);
 	        else
-	        	Logger.getLogger("test").warning("Queue is null");
+	        	logger.warning("Queue is null");
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
 	}
+	
+    public double readVoltage(int channel) throws IOException {
+        // 10-bit ADC MCP3008
+        byte packet[] = new byte[3];
+        packet[0] = 0x01;  // INIT_CMD;  // address byte
+        packet[1] = (byte) ((0x08 + channel) << 4);  // singleEnded + channel
+        packet[2] = 0x00;
+            
+        byte[] result = spi.write(packet);
+        
+        logger.info("Voltage for Channel "+channel+":" + (((result[1] & 0x03 ) << 8) | (result[2] & 0xff) ));
+        double voltage = (((result[1] & 0x03 ) << 8) | (result[2] & 0xff) );
+        
+        //The chip returns values from 0-1024, the value returned is therefore a percentage of 1024 and can be used to determine the input voltage
+        voltage = (voltage / 1024)*3.3;
+        
+        return voltage;
+        
+    }
 
 }

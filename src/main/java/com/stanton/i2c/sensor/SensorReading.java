@@ -5,7 +5,8 @@ import java.io.Serializable;
 public class SensorReading implements Serializable{
 	private double temp;
 	private double pressure;
-	
+	private double voltage;
+
 	public double getTemp() {
 		return temp;
 	}
@@ -22,4 +23,11 @@ public class SensorReading implements Serializable{
 		this.pressure = pressure;
 	}
 
+	public double getVoltage() {
+		return voltage;
+	}
+
+	public void setVoltage(double voltage) {
+		this.voltage = voltage;
+	}
 }
