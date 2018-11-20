@@ -47,7 +47,9 @@ public class GreenhouseItemListener implements ItemListener<SensorReading> {
 				path("update.json").
 				queryParam("api_key","OMFTOKIBILJ17SRF").
 				queryParam("field1", r.getTemp()).
-				queryParam("field2", r.getPressure());
+				queryParam("field2", r.getPressure()).
+				queryParam("field3", r.getVoltage());
+		
 		
 		target.request().get();
 	}
