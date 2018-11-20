@@ -28,6 +28,8 @@ public class BMP180 {
         spi = SpiFactory.getInstance(SpiChannel.CS0,
                 SpiDevice.DEFAULT_SPI_SPEED, // default spi speed 1 MHz
                 SpiDevice.DEFAULT_SPI_MODE); // default spi mode 0
+        
+        logger.info("Started Sensor");
 
 	}
 	
@@ -121,7 +123,7 @@ public class BMP180 {
 			SensorReading reading = new SensorReading();
 			reading.setTemp(cTemp);
 			reading.setPressure(pressure);
-			reading.setVoltage(readVoltage(0));
+			reading.setVoltage(readVoltage(0)); //read channel 0
 		
 	        if(queue!=null)
 	        	queue.put(reading);
