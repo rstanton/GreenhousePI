@@ -47,17 +47,23 @@ public class App extends Thread{
     }
     
     public void run() {
-    	//BMP180 sensor = new BMP180(config);
-        
-    	while(true) {
-    		try {
-    			//sensor.read();
-   			
-    			Thread.sleep(300000);;
-    		}
-    		catch(Exception e) {
-    			e.printStackTrace();
-    		}
+    	try {
+	    	BMP180 sensor = new BMP180(config);
+	        
+	    	while(true) {
+	    		try {
+	    			sensor.read();
+	   			
+	    			Thread.sleep(5000);;
+	    		}
+	    		catch(Exception e) {
+	    			e.printStackTrace();
+	    		}
+	    	}
+    	}
+    	catch(Exception e) {
+    		e.printStackTrace();
+    		System.exit(-1);
     	}
     }
     
